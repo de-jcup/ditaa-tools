@@ -2,24 +2,31 @@ package de.jcup.ditaa.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 public class Line implements Shape {
 
 	List<Point> linePoints;
-
+	
+	public Line(List<Point> points) {
+		init(points);
+	}
 	public Line(Point... points) {
 		List<Point> asList = Arrays.asList(points);
+		init(asList);
+	}
+	private void init(List<Point> asList) {
 		Iterator<Point> it = asList.iterator();
 		this.linePoints=new ArrayList<>();
 		
-		Point beforePointFromLineList = null;
+		Location beforePointFromLineList = null;
 		while (it.hasNext()){
 			Point target = it.next();
 			
 			if (beforePointFromLineList!=null){
-				Point pos = new Point(beforePointFromLineList.x,beforePointFromLineList.y);
+				Location pos = new Point(beforePointFromLineList.x,beforePointFromLineList.y);
 				while (notSamePosition(pos, target)){
 					Point nextPos = createNextPointToMoveOn(target, pos);
 					if (notSamePosition(nextPos, target)){
@@ -33,8 +40,12 @@ public class Line implements Shape {
 			
 		}
 	}
+	
+	public List<Point> getPoints() {
+		return Collections.unmodifiableList(linePoints);
+	}
 
-	protected Point createNextPointToMoveOn(Point target, Point pos) {
+	protected Point createNextPointToMoveOn(Location target, Location pos) {
 		boolean moveNextRight=target.x>pos.x;
 		boolean moveNextLeft=target.x<pos.x;
 		
@@ -82,7 +93,7 @@ public class Line implements Shape {
 		return nextPos;
 	}
 
-	protected boolean notSamePosition(Point lastPoint, Point point) {
+	protected boolean notSamePosition(Location lastPoint, Location point) {
 		return lastPoint.x!=point.x || lastPoint.y!=point.y;
 	}
 

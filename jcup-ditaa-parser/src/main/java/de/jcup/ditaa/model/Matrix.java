@@ -20,23 +20,6 @@ public class Matrix {
 		xParts.put(y, c);
 	}
 	
-	public class Dimension{
-		private int width;
-		private int height;
-		
-		private Dimension(int width, int height){
-			this.width=width;
-			this.height=height;
-		}
-		public int getWidth() {
-			return width;
-		}
-		
-		public int getHeight() {
-			return height;
-		}
-	}
-	
 	public int getValueAt(int x, int y){
 		Map<Integer, Character> data = matrix.get(x);
 		if (data==null){
@@ -72,6 +55,14 @@ public class Matrix {
 			}
 		}
 		return new Dimension(maxX+1, maxY+1);
+	}
+
+	public void remove(Location location) {
+		Map<Integer, Character> xParts = matrix.get(location.x);
+		if (xParts==null){
+			return;
+		}
+		xParts.remove(location.y);
 	}
 	
 }

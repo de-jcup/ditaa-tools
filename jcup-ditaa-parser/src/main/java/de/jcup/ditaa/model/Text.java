@@ -1,15 +1,16 @@
 package de.jcup.ditaa.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Text implements Shape{
 	
-	private Point edgeLeftTop;
+	private Location edgeLeftTop;
 
 	private List<Point> points = new ArrayList<>();
 	
-	public Text(Point edgeLeftTop, String text) {
+	public Text(Location edgeLeftTop, String text) {
 		this.edgeLeftTop=edgeLeftTop;
 		int x = edgeLeftTop.x;
 		int y = edgeLeftTop.y;
@@ -18,7 +19,7 @@ public class Text implements Shape{
 			points.add(new Point(x++,y,c));
 		}
 	}
-	public Point getEdgeLeftTop() {
+	public Location getEdgeLeftTop() {
 		return edgeLeftTop;
 	}
 
@@ -27,5 +28,10 @@ public class Text implements Shape{
 		for (Point point: points){
 			point.draw(targetScene);
 		}
+	}
+	
+	@Override
+	public List<Point> getPoints() {
+		return Collections.unmodifiableList(points);
 	}
 }

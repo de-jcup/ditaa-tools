@@ -55,7 +55,7 @@ public class LineTest {
 
 	protected void dumpLIne(Line line) {
 		System.out.println("Line:");
-		for (Point p : line.linePoints){
+		for (Location p : line.linePoints){
 			System.out.println(p);
 		}
 		System.out.println("---");

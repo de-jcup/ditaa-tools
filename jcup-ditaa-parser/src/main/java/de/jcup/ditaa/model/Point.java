@@ -1,8 +1,6 @@
 package de.jcup.ditaa.model;
 
-public class Point implements Shape{
-	int x;
-	int y;
+public class Point extends Location{
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -38,14 +36,7 @@ public class Point implements Shape{
 		this(x,y,'+');
 	}
 	public Point(int x, int y, char c) {
-		if (x<0){
-			throw new IllegalArgumentException("x may not be smaller 0:"+x);
-		}
-		if (y<0){
-			throw new IllegalArgumentException("y may not be smaller 0:"+y);
-		}
-		this.x=x;
-		this.y=y;
+		super(x,y);
 		this.character=Character.valueOf(c);
 	}
 

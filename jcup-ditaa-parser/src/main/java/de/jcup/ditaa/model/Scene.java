@@ -1,9 +1,8 @@
 package de.jcup.ditaa.model;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
-import de.jcup.ditaa.model.Matrix.Dimension;
 
 public class Scene {
 
@@ -11,6 +10,10 @@ public class Scene {
 
 	public void add(Point point) {
 		matrix.add(point.x, point.y, point.character);
+	}
+	
+	public Dimension getDimension(){
+		return matrix.getDimension();
 	}
 
 	public static Scene fromString(String string){
@@ -70,7 +73,9 @@ public class Scene {
 		return sb.toString();
 	}
 	
-
+	public Point getPoint(Location location) {
+		return getPoint(location.x,location.y);
+	}
 	/**
 	 * Returns point or <code>null</code>
 	 * @param x
@@ -83,6 +88,12 @@ public class Scene {
 			return null;
 		}
 		return new Point(x,y,(char)value);
+	}
+
+	public void remove(List<Point> points) {
+		for (Point point: points){
+			matrix.remove(point);
+		}
 	}
 
 }
