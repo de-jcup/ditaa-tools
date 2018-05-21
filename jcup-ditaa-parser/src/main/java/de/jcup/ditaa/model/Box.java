@@ -1,11 +1,13 @@
 package de.jcup.ditaa.model;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
-public class Box implements Shape{
+public class Box extends AbstractShape{
 	
-	private Location edgeLeftTop;
+	private Point edgeLeftTop;
 	private Point edgeLeftBottom;
 	private Point edgeRightTop;
 	private Point edgeRightBottom;
@@ -31,20 +33,23 @@ public class Box implements Shape{
 		lines.add(new Line(edgeLeftBottom,edgeLeftTop));
 	}
 	
-	public Location getEdgeLeftBottom() {
+	public Point getEdgeLeftBottom() {
 		return edgeLeftBottom;
 	}
-	public Location getEdgeLeftTop() {
+	public Point getEdgeLeftTop() {
 		return edgeLeftTop;
 	}
-	public Location getEdgeRightTop() {
+	public Point getEdgeRightTop() {
 		return edgeRightTop;
 	}
 	
-	public Location getEdgeRightBottom() {
+	public Point getEdgeRightBottom() {
 		return edgeRightBottom;
 	}
-	
+	@Override
+	public Point getLeftTop() {
+		return getEdgeLeftTop();
+	}
 
 	@Override
 	public void draw(Scene targetScene) {
@@ -173,8 +178,17 @@ public class Box implements Shape{
 	}
 	
 	private boolean wouldBePossibleLinePart(Point current) {
-		// TODO Auto-generated method stub
-		return false;
+		if (current==null){
+			return false;
+		}
+		switch (current.character){
+		case '-':
+		case '|':
+		case '*':
+			return true;
+		default:
+				return false;
+		}
 	}
 
 	private boolean wouldBePossibleEdge(Point point) {
@@ -189,11 +203,12 @@ public class Box implements Shape{
 		}
 	}
 
-	public List<Point> getPoints() {
-		List<Point> points = new ArrayList<>();
+	public Set<Point> getPoints() {
+		Set<Point> points = new LinkedHashSet<>();
 		for (Line line: lines){
 			points.addAll(line.getPoints());
 		}
 		return points;
 	}
+
 }

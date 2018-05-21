@@ -2,13 +2,17 @@ package de.jcup.ditaa;
 
 import static org.junit.Assert.*;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import de.jcup.ditaa.model.Box;
+import de.jcup.ditaa.model.Line;
 import de.jcup.ditaa.model.Point;
+import de.jcup.ditaa.model.Scene;
+import de.jcup.ditaa.model.Text;
 
 public class DitaaParserTest {
 
@@ -50,6 +54,42 @@ public class DitaaParserTest {
 		assertEquals(new Point(18,0,'+'), box.getEdgeRightTop());
 		assertEquals(new Point(18,6,'+'), box.getEdgeRightBottom());
 		
+	}
+	
+	@Test
+	public void buildBoxesAreParseCorrectly(){
+		/* prepare */
+		Box box = new Box(new Point(3,8),20,8);
+		
+		Box box2 = new Box(new Point(43,5),20,10);
+		
+		Scene scene = new Scene();
+		box.draw(scene);
+		box2.draw(scene);
+		
+		String result = scene.print();
+		System.out.println(result);
+		
+		/* execute */
+		DitaaModel model = parserToTest.parse(result);
+		
+		/* test */
+		List<Box> boxes = model.getBoxes();
+		assertEquals(2,boxes.size());
+		
+		Iterator<Box> iterator = boxes.iterator();
+		Box rbox1 = iterator.next();
+		Box rbox2 = iterator.next();
+		assertEquals(new Point(3,8), rbox1.getEdgeLeftTop());
+		assertEquals(new Point(43,5), rbox2.getEdgeLeftTop());
+		
+		Scene scene2 = new Scene();
+		rbox1.draw(scene2);
+		rbox2.draw(scene2);
+		System.out.println("--");
+		String result2 = scene.print();
+		System.out.println(result2);
+		assertEquals(result,result2);
 	}
 
 }

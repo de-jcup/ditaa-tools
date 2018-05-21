@@ -1,10 +1,15 @@
 package de.jcup.ditaa.model;
 
-import java.util.List;
+import java.util.Set;
 
 public interface Shape {
 
+	public Location getLeftTop();
+	
 	public void draw(Scene targetScene);
 	
-	public List<Point> getPoints();
+	public Set<Point> getPoints();
+
+	public void move(Direction direction);
+	
 }

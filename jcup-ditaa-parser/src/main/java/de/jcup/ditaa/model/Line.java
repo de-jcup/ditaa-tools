@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
-public class Line implements Shape {
+public class Line extends AbstractShape {
 
 	List<Point> linePoints;
+	private Point leftTop;
 	
 	public Line(List<Point> points) {
 		init(points);
@@ -17,6 +20,7 @@ public class Line implements Shape {
 		List<Point> asList = Arrays.asList(points);
 		init(asList);
 	}
+	
 	private void init(List<Point> asList) {
 		Iterator<Point> it = asList.iterator();
 		this.linePoints=new ArrayList<>();
@@ -24,13 +28,14 @@ public class Line implements Shape {
 		Location beforePointFromLineList = null;
 		while (it.hasNext()){
 			Point target = it.next();
-			
+			handleLeftTop(target);
 			if (beforePointFromLineList!=null){
 				Location pos = new Point(beforePointFromLineList.x,beforePointFromLineList.y);
 				while (notSamePosition(pos, target)){
 					Point nextPos = createNextPointToMoveOn(target, pos);
 					if (notSamePosition(nextPos, target)){
 						linePoints.add(nextPos);
+						handleLeftTop(nextPos);
 					}
 					pos = nextPos;
 				}
@@ -41,8 +46,34 @@ public class Line implements Shape {
 		}
 	}
 	
-	public List<Point> getPoints() {
-		return Collections.unmodifiableList(linePoints);
+	private void handleLeftTop(Point point){
+		if (point==null){
+			return;
+		}
+		if (leftTop==null){
+			leftTop=point;
+			return;
+		}
+		if (leftTop.x==point.x){
+			if (leftTop.y>point.y){
+				leftTop=point;
+				return;
+			}
+		}
+		
+		if (leftTop.x<point.x){
+			leftTop=point;
+			return;
+		}
+	}
+	
+	@Override
+	public Point getLeftTop() {
+		return leftTop;
+	}
+	
+	public Set<Point> getPoints() {
+		return new LinkedHashSet<>(linePoints);
 	}
 
 	protected Point createNextPointToMoveOn(Location target, Location pos) {
@@ -102,6 +133,6 @@ public class Line implements Shape {
 		for (Point point : linePoints) {
 			point.draw(targetScene);
 		}
-
 	}
+	
 }

@@ -7,7 +7,7 @@ import org.junit.Test;
 public class BoxTest {
 
 	@Test
-	public void test() {
+	public void testBuildAndMove() {
 		Box box = new Box(new Point(3,8),20,8);
 		
 		Box box2 = new Box(new Point(43,5),20,10);
@@ -29,6 +29,24 @@ public class BoxTest {
 		
 		String result = scene.print();
 		System.out.println(result);
+		
+		for (int i=0;i<4;i++){
+			box2.move(Direction.DOWN);
+			box2.move(Direction.RIGHT);
+			line.move(Direction.RIGHT);
+		}
+		System.out.println("------------Move done-----------------");
+		
+		scene = new Scene();
+		box.draw(scene);
+		box2.draw(scene);
+		line.draw(scene);
+		line2.draw(scene);
+		text.draw(scene);
+		text2.draw(scene);
+		result = scene.print();
+		System.out.println(result);
+		
 	}
 
 }

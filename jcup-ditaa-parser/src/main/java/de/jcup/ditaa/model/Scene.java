@@ -1,5 +1,6 @@
 package de.jcup.ditaa.model;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -90,7 +91,7 @@ public class Scene {
 		return new Point(x,y,(char)value);
 	}
 
-	public void remove(List<Point> points) {
+	public void remove(Collection<Point> points) {
 		for (Point point: points){
 			matrix.remove(point);
 		}
